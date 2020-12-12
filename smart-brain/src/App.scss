@@ -1,0 +1,16 @@
+.App {
+    .particles {
+        background: linear-gradient(to right, #FF5EDF 0%, #04C8DE 100%);
+        position: fixed;
+        top: 0;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        z-index: -1;
+    }
+
+    .zind {
+        z-index: 0;
+    }
+}
+

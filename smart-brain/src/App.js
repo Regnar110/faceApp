@@ -36,8 +36,33 @@ class App extends Component {
       imageURL: '',
       box: {},
       route: 'signin', //route state jest to stan, który ma za zadanie śledzić w jakim miejscu na stronie się znajdujemy
-      isSignedIn: false
+      isSignedIn: false,
+      user: {
+        id: '',
+        name: '',
+        email: '',
+        entries: 0,
+        joined: ''
+      }
     }
+  }
+
+  // componentDidMount() { // jest to pierwszy poznanyt sposób na połączenie się z serwerem. Potrzebny jest do tego CORS(Cross-origin resource sharing) co jest związane z SOP(Same-origin-policy)
+  //   fetch('http://localhost:3000/')
+  //   .then(response => response.json())
+  //   .then(data => console.log(data))
+  // }
+
+  loadUser = (data) => {
+    const {id, name, email, entries, joined} = data;
+    this.setState({user: {
+        id: id,
+        name: name,
+        email: email,
+        entries: entries,
+        joined: joined
+      }
+    })
   }
 
   calculateFaceLocation = (data) => {
@@ -65,8 +90,22 @@ class App extends Component {
   onSubmit = () => {
     this.setState({imageURL: this.state.input})
     app.models.predict(Clarifai.FACE_DETECT_MODEL, this.state.input)  // w nawiasie model, i po przecinku preóbka czyli jakieś zdjęcie. Modele możnazobaczyć w dokumentacji w odnośniku do githuba clarifai w pliku index
-    .then(
-      response => this.displayFaceBox(this.calculateFaceLocation(response)))
+    .then(response => {
+      if(response) {
+        fetch('http://localhost:3000/image', {
+          method: 'put',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            id: this.state.user.id
+          })
+        })
+        .then(response => response.json())
+        .then(count => {
+          this.setState(Object.assign(this.state.user, {entries: count})) // Object.assign jest poo to aby przy set state nie zmieniać całego obiektu przy okazji zmiany tylko wartości entries, pierwszy param. to obiekt do którego chcemycoś przypisać a drugi to to co chcemy przypisać. Bez tego wysypuje się licznik!
+        })
+      }
+      this.displayFaceBox(this.calculateFaceLocation(response))
+    })
     .catch(err => console.log(err))
   }
 
@@ -80,6 +119,7 @@ class App extends Component {
   }
 
   render() {
+    const {name, entries} = this.state.user;
     const {box, imageURL, route, isSignedIn} = this.state;
     return(
       <div className='App'>
@@ -90,15 +130,15 @@ class App extends Component {
         { route === 'home' ? 
             <Fragment>
               <Logo className='zind'/>;
-              <Rank className='zind'/>
+              <Rank className='zind' name={name} entries={entries}/>
               <ImageLinkForm className='zind' onInputChange={this.onInputChange} onSubmit={this.onSubmit}/>
               <FaceRecognition box={box}imageURL={imageURL}/>
             </Fragment>
           : (
             route === 'signin' ?
-            <SignIn onRouteChange={this.onRouteChange}/>
+            <SignIn onRouteChange={this.onRouteChange} loadUser={this.loadUser}/>
             :
-            <Register onRouteChange={this.onRouteChange}/>
+            <Register onRouteChange={this.onRouteChange} loadUser={this.loadUser}/>
             )
         }
       </div>

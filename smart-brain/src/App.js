@@ -1,6 +1,5 @@
 import {Component, Fragment} from 'react';
 import Particles from 'react-particles-js'
-import Clarifai from 'clarifai';
 import './App.scss';
 import Navigation from './components/Navigation/Navigation'
 import Logo from './components/Logo/Logo'
@@ -23,10 +22,20 @@ const particlesOptions = {
     }
 }
 
-const app = new Clarifai.App({ // klucz do api pozwalający dostawcy na identyfikację użytkownika korzystającego z api co pozwala na kontrolę ilości wykorzystywanych zasobów API. Praktycznie każde api korzysta z API key do tego celu. App jest zdefiniowane po to aby potem można bylo z niego korzystąć dalej w kodzie.
-  apiKey: 'f8a1d29279af4530bda0c69f0c9de3bb'
- });
-
+ const initialState = { // stan początkowy używany do naprawy buga w którym obra zzapisywał się npm jeżeli przelogowaliśmy się na nowe konto to informacje z poprzedniego konta były załadowane na nowe konto dopóki nie zostały nadpisane nowymi z nowego konta.
+  input: '',
+  imageURL: '',
+  box: {},
+  route: 'signin',
+  isSignedIn: false,
+  user: {
+    id: '',
+    name: '',
+    email: '',
+    entries: 0,
+    joined: ''
+  }
+ }
 
 class App extends Component {
   constructor() {
@@ -79,8 +88,7 @@ class App extends Component {
   }
 
   displayFaceBox = box => {
-    console.log(box)
-    this.setState({box: box})
+      this.setState({box: box})
   }
 
   onInputChange = (event) => {
@@ -89,7 +97,14 @@ class App extends Component {
 
   onSubmit = () => {
     this.setState({imageURL: this.state.input})
-    app.models.predict(Clarifai.FACE_DETECT_MODEL, this.state.input)  // w nawiasie model, i po przecinku preóbka czyli jakieś zdjęcie. Modele możnazobaczyć w dokumentacji w odnośniku do githuba clarifai w pliku index
+    fetch('http://localhost:3000/imageUrl', {
+      method: 'post',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        input: this.state.input
+      })
+    })
+    .then(response => response.json())
     .then(response => {
       if(response) {
         fetch('http://localhost:3000/image', {
@@ -103,15 +118,17 @@ class App extends Component {
         .then(count => {
           this.setState(Object.assign(this.state.user, {entries: count})) // Object.assign jest poo to aby przy set state nie zmieniać całego obiektu przy okazji zmiany tylko wartości entries, pierwszy param. to obiekt do którego chcemycoś przypisać a drugi to to co chcemy przypisać. Bez tego wysypuje się licznik!
         })
+        .catch(err => console.log('unable to change count'))
       }
       this.displayFaceBox(this.calculateFaceLocation(response))
     })
     .catch(err => console.log(err))
   }
 
+
   onRouteChange = (direction) => {
     if(direction === 'signin') {
-      this.setState({isSignedIn: false})
+      this.setState(initialState)
     } else if(direction === 'home') {
       this.setState({isSignedIn: true})
     }

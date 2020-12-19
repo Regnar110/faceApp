@@ -34,7 +34,8 @@ const particlesOptions = {
     name: '',
     email: '',
     entries: 0,
-    joined: ''
+    joined: '',
+    username: ''
   }
  }
 
@@ -52,7 +53,8 @@ class App extends Component {
         name: '',
         email: '',
         entries: 0,
-        joined: ''
+        joined: '',
+        username: ''
       }
     }
   }
@@ -64,13 +66,14 @@ class App extends Component {
   // }
 
   loadUser = (data) => {
-    const {id, name, email, entries, joined} = data;
+    const {id, name, email, entries, joined, username} = data;
     this.setState({user: {
         id: id,
         name: name,
         email: email,
         entries: entries,
-        joined: joined
+        joined: joined,
+        username: username
       }
     })
   }
@@ -94,9 +97,7 @@ class App extends Component {
   }
 
   displayFaceBox = box => {
-      this.setState({box: box}, () => {
-        console.log('to jest stan boxu', this.state.box)
-      })}
+      this.setState({box: box})}
 
   onInputChange = (event) => {
     this.setState({input: event.target.value})

@@ -1,7 +1,7 @@
 const handleRegister = (req, res, db, bcrypt) => { // funkcja którą exportujemy na dole do pliku server.js gdzie jest ona wywoływana gdy zostanie wywoły endpoint /register
-    const {name, email, password} = req.body;
+    const {name, userName, email, password} = req.body;
 
-    if(!email || !name || !password) {
+    if(!email || !name || !password || !userName) {
         return res.status(400).json('incorrect form submission');
     }
     
@@ -19,14 +19,16 @@ const handleRegister = (req, res, db, bcrypt) => { // funkcja którą exportujem
         .into('login') // obiekt wprowadzony w trx wprowadzamy do tablicy login
         .returning('email') // zwracamy columne email wprowadzanego obiektu
         .then(loginEmail => { // potem ten zwrócony email pod nazwą loginEmail(tablica)
-             return trx('users') // wybieramy obiekt trx , jest to następna transakcja którą zwracamy 
+            return trx('users') // wybieramy obiekt trx , jest to następna transakcja którą zwracamy 
             .returning('*') // metoda knex która mówi co zostanie zwrócone iw  tym wypadku zwracamy cały obiekt użytkownika ktyóry się zarejesttrował
             .insert({ // to co zostanie wprowadzone do bazy danych
                 email: loginEmail[0], // wprowadzamy loginEmail zwrócony przy wprowadzaniud anych do tablicy login jest to w formie loginEmail[0] z tego względu że potem w bazie email pokazuje sie jako obiekt, a z wybraniem z tablicy indexu 0 pokazuje sie normalnie
                 name: name,
+                username: userName,
                 joined: new Date()
             })
             .then(user => { // potem w odpowiedzi do front-dendu wysyłamy odpowiedź czyli to co zwróciła funkcja returning('*') czyli cały nowy obiekt użytkownika. UWAGA TO WSZYSTKO DZIAŁA JAK OBIETNICE!
+                console.log(user)
                 res.json(user[0]);
             })
         })

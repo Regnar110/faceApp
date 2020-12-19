@@ -7,6 +7,7 @@ const register = require('./controllers/register');
 const signIn = require('./controllers/signin');
 const image = require('./controllers/image');
 const profile = require('./controllers/profile');
+const top = require('./controllers/top')
 
 const db = require('knex')({ // łączenie z bazą(inicjalizacja). Knex to biblioteka pozwalająca na łączenie się z relacyjnymi bazami danych.
     client: 'pg', // posgres
@@ -24,6 +25,9 @@ const app = express(); // uruchamiamy expressa
 app.use(bodyParser.json()) // middleware, który uruchamia  body-parsera!! NIE MOŻNA TEGO ZAPOMINAĆ!
 app.use(cors())
 
+app.get('/top', (req,res) => {
+    top.handleTop(req, res, db)
+});
 
 app.post('/signin', (req,res) => {
     signIn.handleSignIn(req, res, db, bcrypt) // przekazujemy do funkcji z pliku signin.js parametry req i res oraz db i bcrypt aby ta mogla uzywac funkcjonalności knexa i b crypta
@@ -44,7 +48,7 @@ app.put('/image', (res, req) => {
 app.post('/imageUrl', (res, req) => {
     image.handleApiCall(res, req); // przekazujemy do funkcji z pliku image.js parametry req i res oraz db  aby ta mogla uzywac funkcjonalności knexa 
 })
-const port = process.env.port;
+const port = 3000;
 app.listen(port,() => {
     console.log('serwer działa na porcie ', port);
 });

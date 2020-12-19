@@ -6,7 +6,8 @@ class Register extends Component {
         this.state = {
             email: '',
             password: '',
-            name: ''
+            name: '',
+            userName: ''
         }
     }
 
@@ -22,6 +23,10 @@ class Register extends Component {
         this.setState({password: event.target.value})
     }
 
+    onUserNameChange = (event) => {
+        this.setState({userName: event.target.value})
+    }
+
     onSubmitRegister = () => {
         fetch('http://localhost:3000/register', { // tu fetch przyjmuje drugi parametr który jest obiektem w którym określamy to co będziemy wysyłać
             method: 'post', // metoda jakiej użyjemy. W tym wypadku POST
@@ -29,11 +34,13 @@ class Register extends Component {
             body: JSON.stringify({ // ciało naszego requestu z funkcją zmieniającą wpisany obiekt na obiekt JSON
                 email: this.state.email,
                 password: this.state.password,
-                name: this.state.name
+                name: this.state.name,
+                userName: this.state.userName
             })
         })
         .then(response => response.json())
         .then(user => {
+            console.log(user);
             if(user.id){
                 this.props.loadUser(user);
                 this.props.onRouteChange('home');
@@ -52,6 +59,10 @@ class Register extends Component {
                         <div className="mt3">
                             <label className="db fw6 lh-copy f6" htmlFor="email-address">Name</label>
                             <input className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" type="text" name="name"  id="name" onChange={this.onNameChange}/>
+                        </div>
+                        <div className="mt3">
+                            <label className="db fw6 lh-copy f6" htmlFor="email-address">User Name</label>
+                            <input className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" type="text" name="user-name"  id="user-name" onChange={this.onUserNameChange}/>
                         </div>
                         <div className="mt3">
                             <label className="db fw6 lh-copy f6" htmlFor="email-address">Email</label>

@@ -8,6 +8,7 @@ import Rank from './components/Rank/Rank'
 import FaceRecognition from './components/FaceRecognition/FaceRecognition'
 import SignIn from './components/SignIn/SignIn'
 import Register from './components/Register/Register';
+import Topten from './components/topTen/Topten'
 
 
 const particlesOptions = {
@@ -25,7 +26,7 @@ const particlesOptions = {
  const initialState = { // stan początkowy używany do naprawy buga w którym obra zzapisywał się npm jeżeli przelogowaliśmy się na nowe konto to informacje z poprzedniego konta były załadowane na nowe konto dopóki nie zostały nadpisane nowymi z nowego konta.
   input: '',
   imageURL: '',
-  box: {},
+  box: [],
   route: 'signin',
   isSignedIn: false,
   user: {
@@ -43,7 +44,7 @@ class App extends Component {
     this.state = {
       input: '',
       imageURL: '',
-      box: {},
+      box: [],
       route: 'signin', //route state jest to stan, który ma za zadanie śledzić w jakim miejscu na stronie się znajdujemy
       isSignedIn: false,
       user: {
@@ -76,7 +77,6 @@ class App extends Component {
 
   calculateFaceLocation = (data) => {
     const regionsArr = data.outputs[0].data.regions;
-    const clarifaiFace = data.outputs[0].data.regions[0].region_info.bounding_box;
     const image = document.getElementById('inputImage')
     const width = Number(image.width);
     const height = Number(image.height);
@@ -90,14 +90,7 @@ class App extends Component {
         bottomRow: height - (box.bottom_row * height)
       }
     })
-
     return boundingBoxArray;
-    // return {
-    //   leftCol: clarifaiFace.left_col * width,
-    //   topRow: clarifaiFace.top_row * height,
-    //   rightCol: width - (clarifaiFace.right_col * width),
-    //   bottomRow: height - (clarifaiFace.bottom_row * height)
-    // }
   }
 
   displayFaceBox = box => {
@@ -167,9 +160,19 @@ class App extends Component {
             </Fragment>
           : (
             route === 'signin' ?
-            <SignIn onRouteChange={this.onRouteChange} loadUser={this.loadUser}/>
+              <SignIn onRouteChange={this.onRouteChange} loadUser={this.loadUser}/>
             :
-            <Register onRouteChange={this.onRouteChange} loadUser={this.loadUser}/>
+              (
+                route === 'register' ?
+                <Register onRouteChange={this.onRouteChange} loadUser={this.loadUser}/>
+                :
+                (
+                  route === 'topten' ?
+                  <Topten />
+                  :
+                  null
+                )
+              )
             )
         }
       </div>

@@ -1,0 +1,123 @@
+.table {
+    .table-header {
+        width: 1600px;
+        border: 1px solid green;
+        font-size: calc(13px + (20 - 13) * ((100vw - 280px) / (1600 - 280)));
+        text-align: center;
+        .header-pos {
+            width: 15%;
+        }
+
+        .header-name {
+            width: 35%;
+        }
+
+        .header-username {
+            width: 35%;
+        }
+
+        .header-score {
+            width: 15%;
+        }
+    }
+
+    .table-body {
+        width: 1600px;
+        border: 1px solid green;
+        font-size: calc(12px + (20 - 12) * ((100vw - 280px) / (1600 - 280)));
+        text-align: center;
+
+        .body-user {
+            width: 100%;
+
+            .data-pos {
+                width: 15%;
+                border: 1px solid black;
+                padding: 10px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .data-name {
+                width: 35%;
+                border: 1px solid black;
+                padding: 10px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            
+            .data-username {
+                width: 35%;
+                border: 1px solid black;
+                padding: 10px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .data-score {
+                width: 15%;
+                border: 1px solid black;
+                padding: 10px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+        }
+    }
+
+    @media screen and(max-width: 1650px) {
+        .table-header {
+            width: 1300px;
+        }
+
+        .table-body {
+            width: 1300px;
+        }
+    }
+
+    @media screen and(max-width: 1350px) {
+        .table-header {
+            width: 900px;
+        }
+
+        .table-body {
+            width: 900px;
+        }
+    }
+
+    @media screen and(max-width: 950px) {
+        .table-header {
+            width: 500px;
+        }
+
+        .table-body {
+            width: 500px;
+        }
+    }
+
+    @media screen and(max-width: 550px) {
+        .table-header {
+            width: 370px;
+        }
+
+        .table-body {
+            width: 370px;
+        }
+    }
+
+    
+    @media screen and(max-width: 400px) {
+        .table-header {
+            width: 280px;
+            font-size: 12px;
+        }
+
+        .table-body {
+            width: 280px;
+            font-size: 10px;
+        }
+    }
+}

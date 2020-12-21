@@ -28,10 +28,10 @@ class Register extends Component {
     }
 
     onSubmitRegister = () => {
-        fetch('https://hidden-mesa-50173.herokuapp.com/register', { // tu fetch przyjmuje drugi parametr który jest obiektem w którym określamy to co będziemy wysyłać
-            method: 'post', // metoda jakiej użyjemy. W tym wypadku POST
-            headers: {'Content-Type': 'application/json'}, //Nagłówki czyli co wysyłamy - tutaj plik json.
-            body: JSON.stringify({ // ciało naszego requestu z funkcją zmieniającą wpisany obiekt na obiekt JSON
+        fetch('https://hidden-mesa-50173.herokuapp.com/register', { 
+            method: 'post', 
+            headers: {'Content-Type': 'application/json'}, 
+            body: JSON.stringify({ 
                 email: this.state.email,
                 password: this.state.password,
                 name: this.state.name,

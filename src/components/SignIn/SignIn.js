@@ -17,10 +17,10 @@ class SignIn extends Component {
     }
 
     onSubmitSignIn = () => {
-        fetch('https://hidden-mesa-50173.herokuapp.com/signin', { // tu fetch przyjmuje drugi parametr który jest obiektem w którym określamy to co będziemy wysyłać
-            method: 'post', // metoda jakiej użyjemy. W tym wypadku POST
-            headers: {'Content-Type': 'application/json'}, //Nagłówki czyli co wysyłamy - tutaj plik json.
-            body: JSON.stringify({ // ciało naszego requestu z funkcją zmieniającą wpisany obiekt na obiekt JSON
+        fetch('https://hidden-mesa-50173.herokuapp.com/signin', { 
+            method: 'post', 
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ 
                 email: this.state.signInEmail,
                 password: this.state.signInPassword
             })

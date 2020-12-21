@@ -162,7 +162,7 @@ class App extends Component {
                 <Register onRouteChange={this.onRouteChange} loadUser={this.loadUser}/>
                 :
                 (
-                  route === 'topten' ?
+                  route === 'topten'?
                   <Topten />
                   :
                   null

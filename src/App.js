@@ -23,7 +23,7 @@ const particlesOptions = {
     }
 }
 
- const initialState = { // stan początkowy używany do naprawy buga w którym obra zzapisywał się npm jeżeli przelogowaliśmy się na nowe konto to informacje z poprzedniego konta były załadowane na nowe konto dopóki nie zostały nadpisane nowymi z nowego konta.
+ const initialState = { 
   input: '',
   imageURL: '',
   box: [],
@@ -46,7 +46,7 @@ class App extends Component {
       input: '',
       imageURL: '',
       box: [],
-      route: 'signin', //route state jest to stan, który ma za zadanie śledzić w jakim miejscu na stronie się znajdujemy
+      route: 'signin', 
       isSignedIn: false,
       user: {
         id: '',
@@ -58,12 +58,6 @@ class App extends Component {
       }
     }
   }
-
-  // componentDidMount() { // jest to pierwszy poznanyt sposób na połączenie się z serwerem. Potrzebny jest do tego CORS(Cross-origin resource sharing) co jest związane z SOP(Same-origin-policy)
-  //   fetch('http://localhost:3000/')
-  //   .then(response => response.json())
-  //   .then(data => console.log(data))
-  // }
 
   loadUser = (data) => {
     const {id, name, email, entries, joined, username} = data;
@@ -168,7 +162,7 @@ class App extends Component {
                 <Register onRouteChange={this.onRouteChange} loadUser={this.loadUser}/>
                 :
                 (
-                  route === 'topten' ?
+                  route === 'topten'?
                   <Topten />
                   :
                   null

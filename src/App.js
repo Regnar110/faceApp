@@ -124,7 +124,7 @@ class App extends Component {
         })
         .then(response => response.json())
         .then(count => {
-          this.setState(Object.assign(this.state.user, {entries: count})) // Object.assign jest poo to aby przy set state nie zmieniać całego obiektu przy okazji zmiany tylko wartości entries, pierwszy param. to obiekt do którego chcemycoś przypisać a drugi to to co chcemy przypisać. Bez tego wysypuje się licznik!
+          this.setState(Object.assign(this.state.user, {entries: count}))
         })
         .catch(err => console.log('unable to change count'))
       }

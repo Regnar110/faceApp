@@ -1,19 +1,23 @@
 .table {
     .table-header {
         width: 1600px;
-        border: 1px solid green;
         font-size: calc(13px + (20 - 13) * ((100vw - 280px) / (1600 - 280)));
+        font-weight: 800;
         text-align: center;
+        border-bottom: 2px solid black;
         .header-pos {
             width: 15%;
         }
 
         .header-name {
             width: 35%;
+            border-left: 2px solid black;
+            border-right: 2px solid black;
         }
 
         .header-username {
             width: 35%;
+            border-right: 2px solid black;
         }
 
         .header-score {
@@ -23,48 +27,42 @@
 
     .table-body {
         width: 1600px;
-        border: 1px solid green;
         font-size: calc(12px + (20 - 12) * ((100vw - 280px) / (1600 - 280)));
         text-align: center;
 
         .body-user {
             width: 100%;
+            transition: .3s all;
+            background-color: transparent;
 
             .data-pos {
                 width: 15%;
-                border: 1px solid black;
                 padding: 10px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
             }
 
             .data-name {
                 width: 35%;
-                border: 1px solid black;
                 padding: 10px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
             }
             
             .data-username {
                 width: 35%;
-                border: 1px solid black;
                 padding: 10px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
             }
 
             .data-score {
                 width: 15%;
-                border: 1px solid black;
                 padding: 10px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
             }
+
+            .data-bottom-border {
+                border-bottom: 1px solid rgba(255, 255, 255, .8);
+            }
+        }
+
+        .body-user:hover {
+            transform: scale(1.05);
+            background-color: rgba(255, 255, 255, 0.281);
         }
     }
 

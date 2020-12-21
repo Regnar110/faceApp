@@ -10,7 +10,7 @@ class Topten extends Component {
     }
 
     componentDidMount() {
-        fetch("http://localhost:3000/top", { 
+        fetch("https://git.heroku.com/hidden-mesa-50173.git/top", { 
             method: 'GET' // definiujemy jakiej metody użyjemy. Po stronie serwera też jest app.get więc tutaj musi być to samo.
         })
         .then(response => response.json())

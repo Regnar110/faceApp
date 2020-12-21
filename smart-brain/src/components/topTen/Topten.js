@@ -10,8 +10,6 @@ class Topten extends Component {
     }
 
     componentDidMount() {
-
-
         fetch("http://localhost:3000/top", { 
             method: 'GET' // definiujemy jakiej metody użyjemy. Po stronie serwera też jest app.get więc tutaj musi być to samo.
         })

@@ -105,7 +105,7 @@ class App extends Component {
 
   onSubmit = () => {
     this.setState({imageURL: this.state.input})
-    fetch('https://git.heroku.com/hidden-mesa-50173.git/imageUrl', {
+    fetch('https://hidden-mesa-50173.herokuapp.com//imageUrl', {
       method: 'post',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
@@ -115,7 +115,7 @@ class App extends Component {
     .then(response => response.json())
     .then(response => {
       if(response) {
-        fetch('https://git.heroku.com/hidden-mesa-50173.git/image', {
+        fetch('https://hidden-mesa-50173.herokuapp.com//image', {
           method: 'put',
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify({
